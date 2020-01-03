@@ -12,44 +12,8 @@ namespace Lib
 	public delegate void ErrorMessageSimple(string errorMessage);
     public static class Help
     {
-
-
-        /// <summary>
-        /// Checked Range
-        /// </summary>
-        /// <param name="num"></param>
-        /// <param name="min">Min - inclusive</param>
-        /// <param name="max">Max - not inclusive</param>
-        /// <returns></returns>
-        public static bool InRange(this int num, int min, int max)
-        {
-            return num >= min && num < max;
-        }
         
-        public static List<T> Clone<T>(this List<T> list)
-        {
-            List<T> cloneList = new List<T>();
-            foreach (var item in list)
-            {
-                cloneList.Add(item);
-            }
-            return cloneList;
-        }
-
-        public static int GetIndex(this string[] arr, string key)
-        {
-            for (int i = 0; i < arr?.Length; i++)
-            {
-                if (arr[i] == key)
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
         
-
         public static object DynamicIndexator(string keyInput, object obj)
         {
             var prop = obj.GetType().GetProperty(keyInput);
@@ -169,4 +133,45 @@ namespace Lib
         }
     }
 
+}
+
+namespace Lib.Extensions
+{
+    public static class Helper
+    {
+        /// <summary>
+        /// Checked Range
+        /// </summary>
+        /// <param name="num"></param>
+        /// <param name="min">Min - inclusive</param>
+        /// <param name="max">Max - not inclusive</param>
+        /// <returns></returns>
+        public static bool InRange(this int num, int min, int max)
+        {
+            return num >= min && num < max;
+        }
+
+        public static List<T> Clone<T>(this List<T> list)
+        {
+            List<T> cloneList = new List<T>();
+            foreach (var item in list)
+            {
+                cloneList.Add(item);
+            }
+            return cloneList;
+        }
+
+        public static int GetIndex(this string[] arr, string key)
+        {
+            for (int i = 0; i < arr?.Length; i++)
+            {
+                if (arr[i] == key)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+    }
 }
