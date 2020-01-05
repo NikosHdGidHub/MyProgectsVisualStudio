@@ -1,23 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Collections.Generic;
+using System.Reflection;
 
 namespace Lib
 {
-	
-	public delegate void SuccessAjax(string resutl);
 
-	public delegate void ErrorMessageMulti(string errorMessage, params string[] errorArr);
-	public delegate void ErrorMessageSimple(string errorMessage);
+    public delegate void SuccessAjax(string resutl);
+
+    public delegate void ErrorMessageMulti(string errorMessage, params string[] errorArr);
+    public delegate void ErrorMessageSimple(string errorMessage);
     public static class Help
     {
-        
-        
+
+
         public static object DynamicIndexator(string keyInput, object obj)
         {
             var prop = obj.GetType().GetProperty(keyInput);
-            return prop?.GetValue(obj)??null;
+            return prop?.GetValue(obj) ?? null;
         }
         public static void DynamicIndexator(string keyInput, object obj, object value)
         {
@@ -37,8 +38,8 @@ namespace Lib
             }
             prop?.SetValue(obj, value);
         }
-       
-        
+
+
         public static string Http(string url, string data, string metod = "POST")
         {
             string result = null;
@@ -173,5 +174,55 @@ namespace Lib.Extensions
             return -1;
         }
 
+        public static object CloneClass(this object classObject, bool clonePrivateFields = false)
+        {
+            var baseClass = classObject.GetType();
+            object newClass;
+            bool onlyPrivateFields = clonePrivateFields;
+
+            if (!baseClass.IsClass) throw new FormatException(nameof(classObject));
+
+            if (baseClass.IsGenericType) onlyPrivateFields = true;
+
+            if (baseClass.IsArray)
+            {
+                var arr = classObject as Array;
+                newClass = arr.Clone();
+                onlyPrivateFields = true;
+            }
+            else
+            {
+                var constructor = baseClass.GetConstructor(Type.EmptyTypes);
+                if (constructor == null) throw new FieldAccessException();
+
+                newClass = constructor.Invoke(new object[0]);
+            }
+
+            var fields = baseClass.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+            foreach (var prop in fields)
+            {
+
+                if (!onlyPrivateFields)
+                {
+                    var searchParticle = "k__BackingField";
+                    var len = searchParticle.Length;
+                    if (prop.Name.Length <= len) continue;
+
+                    if (prop.Name.Remove(0, prop.Name.Length - len) != searchParticle)
+                        continue;
+                }
+
+                var value = prop.GetValue(classObject);
+                if (value != null)
+                {
+                    var metaValue = value?.GetType();
+                    if (metaValue.Name != "String" && metaValue.IsClass)
+                        value = value.CloneClass(clonePrivateFields);
+                }
+
+                prop.SetValue(newClass, value);
+            }
+            return newClass;
+        }
     }
 }
