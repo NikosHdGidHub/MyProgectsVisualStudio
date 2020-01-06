@@ -67,7 +67,7 @@ namespace Lib.ConsoleLib
 		{
 			return Instance ?? (Instance = new ConsoleModel());
 		}
-		
+		private ConsoleModel() { }
 		#endregion
 		private char[] GetArrayChar(in string charArr)
 		{
@@ -261,6 +261,4 @@ namespace Lib.ConsoleLib
 			Instance = null;
 		}
 	}
-
-
 }

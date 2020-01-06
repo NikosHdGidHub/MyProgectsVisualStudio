@@ -47,7 +47,6 @@
     <Compile Include="Converting.cs" />
     <Compile Include="FFunc.cs" />
     <Compile Include="Help_.cs" />
-    <Compile Include="ConsoleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
