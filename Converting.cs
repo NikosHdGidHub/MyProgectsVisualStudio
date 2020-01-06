@@ -104,7 +104,7 @@ namespace Lib.ConvertingLib
                 return;
             }
 
-            List<TagRulsStruct> tags = tagsa.Clone();
+            List<TagRulsStruct> tags = tagsa.CloneAll();
 
             string rowContent = null;
             int indexLastTrue = -1;
