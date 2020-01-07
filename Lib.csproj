@@ -45,8 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converting.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="FFunc.cs" />
-    <Compile Include="Help_.cs" />
+    <Compile Include="Help.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
